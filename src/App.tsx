@@ -21,6 +21,15 @@ function App() {
         justifyContent: "center",
         alignItems: "center",
       }}
+
+      // Here we have access of theme also: 
+      /* sx={(theme)=>({
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width:theme.spacing(20)
+      })} */
     >
       <Stack spacing={2}>
         <Slider
