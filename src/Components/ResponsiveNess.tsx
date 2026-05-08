@@ -5,6 +5,7 @@ import {
   Container,
   createTheme,
   ThemeProvider,
+  useMediaQuery,
 } from "@mui/material";
 
 const theme = createTheme({
@@ -24,7 +25,6 @@ const theme = createTheme({
   },
 });
 
-
 // Responsive tag 🙃
 theme.typography.h3 = {
   fontSize: "1.2rem",
@@ -36,7 +36,14 @@ theme.typography.h3 = {
   },
 };
 
+const useIsDesktop = ()=> useMediaQuery("(min-width:1200px)");
+
 const ResponsiveNess = () => {
+  const isTablet = useMediaQuery("(min-width:600px)");
+
+  // OR --  Can Also create custom hook
+  const isDeskTop = useIsDesktop();
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="lg">
@@ -80,6 +87,7 @@ const ResponsiveNess = () => {
           Responsive Button
         </Button>
       </Container>
+      {isTablet ? <p>I am in Tablet....</p> : <p>I am not in tablet</p>}
     </ThemeProvider>
   );
 };
