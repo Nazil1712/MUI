@@ -6,24 +6,30 @@ import {
   createTheme,
   ThemeProvider,
   useMediaQuery,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
+import { urPK } from "@mui/material/locale";
 
-const theme = createTheme({
-  /* We can define  */
-  // breakpoints:{
-  //   values :{
-  //     mobile:0,
-  //     tablet: 640,
-  //     laptop: 1024,
-  //     desktop: 1200
-  //   }
-  // }
-  components: {
-    MuiButton: {
-      // variants:}
+const theme = createTheme(
+  {
+    /* We can define  */
+    // breakpoints:{
+    //   values :{
+    //     mobile:0,
+    //     tablet: 640,
+    //     laptop: 1024,
+    //     desktop: 1200
+    //   }
+    // }
+    components: {
+      MuiButton: {
+        // variants:}
+      },
     },
   },
-});
+  urPK,
+);
 
 // Responsive tag 🙃
 theme.typography.h3 = {
@@ -36,7 +42,12 @@ theme.typography.h3 = {
   },
 };
 
-const useIsDesktop = ()=> useMediaQuery("(min-width:1200px)");
+const useIsDesktop = () => useMediaQuery("(min-width:1200px)");
+
+const myOptions = [
+  { label: "The Godfather", id: 1 },
+  { label: "Pulp Fiction", id: 2 },
+];
 
 const ResponsiveNess = () => {
   const isTablet = useMediaQuery("(min-width:600px)");
@@ -86,8 +97,15 @@ const ResponsiveNess = () => {
         >
           Responsive Button
         </Button>
+
+        <Autocomplete
+          sx={{ width: 300, marginTop: 2 }}
+          // options={[]} // -- If you won't provide any options here, then by default a select value with text "No Option comes up - Which will be in Urdu PK 🙃,  Why? Because have specified that language after theme (createTheme)."
+          options={myOptions}
+          renderInput={(params) => <TextField {...params} label="User" />}
+        />
       </Container>
-      {isTablet ? <p>I am in Tablet....</p> : <p>I am not in tablet</p>}
+      {/* {isTablet ? <p>I am in Tablet....</p> : <p>I am not in tablet</p>} */}
     </ThemeProvider>
   );
 };
