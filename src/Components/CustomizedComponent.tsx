@@ -7,8 +7,15 @@ import {
   ThemeProvider,
   Typography,
   CssBaseline,
+  Stack,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Box,
+  useColorScheme,
+  alpha,
 } from "@mui/material";
-import { blue, red } from "@mui/material/colors";
+import { blue, lime, purple, red } from "@mui/material/colors";
 
 /* const CustomSlider = styled(Slider)<SliderProps>(({theme})=>({                      
     width: theme.spacing(10), // 10 * 8px ==> 80px                      
@@ -42,6 +49,27 @@ const CustomSlider = styled(Slider, {
 
 // Overriding Global theme
 const theme = createTheme({
+  colorSchemes: {
+    // dark: true,
+    dark: {
+      palette: {
+        primary: {
+          main: "#543345",
+        },
+      },
+    },
+
+    light: {
+      palette: {
+        primary: {
+          main: alpha("#ff0000", 0.5),
+        },
+        secondary: purple,
+        // custom: lime
+      },
+    },
+  },
+
   typography: {
     // fontFamily:"-apple-system",
 
@@ -87,6 +115,10 @@ const theme = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: (theme) => `
+                * {
+                    // margin: 20px;
+                    // padding: 20px;
+                }
 
                 h1 {
                     color: ${theme.palette.success.main}
@@ -96,19 +128,57 @@ const theme = createTheme({
   },
 });
 
+function ThemeChanger() {
+  const { mode, setMode } = useColorScheme();
+  if (!mode) return null;
+
+  return (
+    <RadioGroup
+      value={mode}
+      onChange={(e) => setMode(e.target.value as "light" | "dark" | "system")}
+    >
+      <FormControlLabel control={<Radio />} value={"system"} label="System" />
+      <FormControlLabel control={<Radio />} value={"light"} label="Light" />
+      <FormControlLabel control={<Radio />} value={"dark"} label="Dark" />
+    </RadioGroup>
+  );
+}
+
 const CustomizedComponent = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <CustomSlider error={true} />
-      <Button>Submit</Button>
-      <Button variant="outlined" color="secondary">
-        Outlined Button
-      </Button>
-      <Button variant="dashed">Dashed Button</Button>
-      <Typography variant="h1">H1</Typography>
-      <Typography variant="h2">H2</Typography>
-    </ThemeProvider>
+    <Stack
+      sx={{
+        gap: 2,
+        maxWidth: "50vw",
+        marginLeft: 5,
+        marginTop: 5,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <ThemeChanger />
+        <CssBaseline />
+        <CustomSlider error={true} />
+        <Button>Submit</Button>
+        <Button variant="outlined" color="secondary">
+          Outlined Button
+        </Button>
+
+        <Button
+          sx={[
+            () => ({ backgroundColor: "red" }),
+            (theme) =>
+              theme.applyStyles("dark", {
+                backgroundColor: "blue",
+              }),
+          ]}
+        >
+          Btn Depends on Mode
+        </Button>
+        <Button variant="dashed">Dashed Button</Button>
+        <Typography variant="h1">H1</Typography>
+        <Typography variant="h2">H2</Typography>
+      </ThemeProvider>
+    </Stack>
   );
 };
 

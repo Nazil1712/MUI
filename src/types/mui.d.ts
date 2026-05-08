@@ -7,4 +7,3 @@ declare module "@mui/material/Button" {
         dashed: true;
     }
 }
-
